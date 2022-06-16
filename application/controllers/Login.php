@@ -14,6 +14,10 @@ class Login extends CI_Controller
             'Title' => 'Desa Bulu Apo ',
             'SubTitle' => '- Login'
         ];
+        $Akses = $this->session->userdata('email');
+        if ($Akses) {
+            redirect('Home');
+        }
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
         if ($this->form_validation->run() == false) {
@@ -53,17 +57,32 @@ class Login extends CI_Controller
             'Title' => 'Desa Bulu Apo ',
             'SubTitle' => '- Registrasi'
         ];
+        $Akses = $this->session->userdata('email');
+        if ($Akses) {
+            redirect('Home');
+        }
         $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]');
         $this->form_validation->set_rules('password', 'Password', 'required|trim|matches[konfirmasipassword]|min_length[3]');
         $this->form_validation->set_rules('konfirmasipassword', 'Konfirmasi Password', 'required|trim|matches[password]');
         if ($this->form_validation->run() == true) {
             $this->DB_Penduduk->Registrasi();
+            $this->session->set_flashdata('Message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Akun anda berhasil <b>terdaftar</b>.
+            </div>');
             redirect('Login');
         } else {
             $this->load->view('templateLogin/header', $data);
             $this->load->view('viewLogin/register');
             $this->load->view('templateLogin/footer');
         }
+    }
+    public function logout()
+    {
+        $this->session->unset_userdata('email');
+        $this->session->set_flashdata('Message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        Anda berhasil <b>logout</b>.
+        </div>');
+        redirect('Login');
     }
 }
