@@ -1,12 +1,4 @@
-﻿# Host: localhost  (Version 5.5.5-10.4.11-MariaDB)
-# Date: 2022-06-14 10:55:50
-# Generator: MySQL-Front 6.0  (Build 2.20)
-
-
-#
-# Structure for table "admin"
-#
-
+﻿
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
